@@ -47,13 +47,20 @@ Sodaq_BMP085::Sodaq_BMP085()
   oversampling = BMP085_ULTRAHIGHRES;
 }
 
+#if defined(ARDUINO_ARCH_ESP8266)
+void Sodaq_BMP085::begin(int SDA, int SCL, uint8_t mode)
+{
+  Wire.begin(SDA,SCL);
+#else
 void Sodaq_BMP085::begin(uint8_t mode)
 {
+  Wire.begin();
+#endif
+  
   if (mode > BMP085_ULTRAHIGHRES)
     mode = BMP085_ULTRAHIGHRES;
   oversampling = mode;
 
-  Wire.begin();
 
   if (read8(0xD0) != 0x55)
     return;
