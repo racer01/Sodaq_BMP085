@@ -35,7 +35,7 @@ class Sodaq_BMP085 {
  public:
   Sodaq_BMP085();
   #if defined(ARDUINO_ARCH_ESP8266)
-    void begin(uint8_t mode = BMP085_ULTRAHIGHRES, int SDA, int SCL);  // by default go highres
+    void begin(int SDA, int SCL, uint8_t mode = BMP085_ULTRAHIGHRES);  // by default go highres
   #else
     void begin(uint8_t mode = BMP085_ULTRAHIGHRES);  // by default go highres
   #endif
