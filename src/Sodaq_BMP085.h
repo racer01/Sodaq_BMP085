@@ -34,7 +34,12 @@
 class Sodaq_BMP085 {
  public:
   Sodaq_BMP085();
-  void begin(uint8_t mode = BMP085_ULTRAHIGHRES);  // by default go highres
+  #if defined(ARDUINO_ARCH_ESP8266)
+    void begin(uint8_t mode = BMP085_ULTRAHIGHRES, int SDA, int SCL);  // by default go highres
+  #else
+    void begin(uint8_t mode = BMP085_ULTRAHIGHRES);  // by default go highres
+  #endif
+  
   float readTemperature(void);
   int32_t readPressure(void);
   float readAltitude(float sealevelPressure = 101325); // std atmosphere
