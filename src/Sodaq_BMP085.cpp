@@ -48,11 +48,11 @@ Sodaq_BMP085::Sodaq_BMP085()
 }
 
 #if defined(ARDUINO_ARCH_ESP8266)
-void Sodaq_BMP085::begin(int SDA, int SCL, uint8_t mode)
+bool Sodaq_BMP085::begin(int SDA, int SCL, uint8_t mode)
 {
   Wire.begin(SDA,SCL);
 #else
-void Sodaq_BMP085::begin(uint8_t mode)
+bool Sodaq_BMP085::begin(uint8_t mode)
 {
   Wire.begin();
 #endif
@@ -63,7 +63,7 @@ void Sodaq_BMP085::begin(uint8_t mode)
 
 
   if (read8(0xD0) != 0x55)
-    return;
+    return false;
 
   /* read calibration data */
   ac1 = read16(BMP085_CAL_AC1);
@@ -94,6 +94,7 @@ void Sodaq_BMP085::begin(uint8_t mode)
   Serial.print("mc = "); Serial.println(mc, DEC);
   Serial.print("md = "); Serial.println(md, DEC);
 #endif
+  return true;
 }
 
 uint16_t Sodaq_BMP085::readRawTemperature(void)
